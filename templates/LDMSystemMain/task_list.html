@@ -1,0 +1,12 @@
+{% extends "main.html" %}
+
+{% load webdesign %}
+
+{% block content %}
+    <ul>
+        {% for task in tasks_list %}
+            <li>{{ task.name }} <a href="/task/{{ task.item_id }}">Edit task</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

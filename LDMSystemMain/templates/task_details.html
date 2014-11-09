@@ -1,0 +1,28 @@
+{% extends "main.html" %}
+
+{% load webdesign %}
+{% load bootstrap3 %}
+{% block content %}
+    Task details!!!
+
+    {{ string_cur }}
+    <p>
+
+    </p>
+    <form class="form" action="/task/{{ current.item_id }}/" method="post">
+
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+            <button type="submit" class="btn btn-primary">
+                {% bootstrap_icon "save" %} Submit
+            </button>
+
+        {% endbuttons %}
+    </form>
+
+
+
+
+
+{% endblock %}

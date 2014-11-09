@@ -13,10 +13,17 @@ class Item(models.Model):  # Всё у чего есть камменты
 
 class Executive(models.Model):  # Всё что может являться исполнителем - основной ID для исполнителей
     executive_id = models.AutoField(primary_key=True)
-    pass
 
-#TODO: Edit Person
+    def __str__(self):
+        print(type(self))
+        if Person.objects.filter(executive_id=self.executive_id):
+            return str(Person.objects.get(executive_id=self.executive_id))
+        else:
+            return " %d" % self.executive_id
+
 #TODO: Person Assignment
+# TODO: TASK Add
+#DONE: Task Remove
 class Person(Item, Executive):
     first_name = models.CharField(verbose_name="Имя", max_length=30)
     last_name = models.CharField(verbose_name="Фамилия", max_length=30)
@@ -50,6 +57,14 @@ class Task(Item):
     duration = models.IntegerField()
     person = models.ManyToManyField(Executive, through='Assigment')
 
+    def __str__(self):
+        return self.name + " "  # + self.person.executive_id
+
+
+class TaskForm(ModelForm):
+    class Meta:
+        model = Task
+        fields = '__all__'
 
 class Assigment(models.Model):
     person = models.ForeignKey(Executive)

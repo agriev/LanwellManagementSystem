@@ -24,5 +24,40 @@
 
 
 
+{% endblock %}
+
+{% block properties %}
+
+    <table class="table table-striped">
+        <tr>
+            <td><b>Название задачи</b></td>
+            <td><b>Длительность</b></td>
+            <td><b>Редактировать</b></td>
+        </tr>
+        {% for task in tasks.all %}
+            <tr>
+                <td>{{ task.name }}</td>
+                <td>{{ task.duration }}</td>
+                <td>
+                    <button class="btn btn-danger task-remover" id="{{ task.item_id }}">Снять задачу</button>
+                </td>
+            </tr>
+
+        {% endfor %}
+    </table>
+    <script type="text/javascript">
+        $(".task-remover").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/assigmentedit/" + $(this).attr("id") + "/delete/",
+                data: {"executive_id": {{ current.executive_id}}},
+                success: function () {
+                    location.reload();
+                },
+                dataType: "text"
+            });
+        });
+
+    </script>
 
 {% endblock %}

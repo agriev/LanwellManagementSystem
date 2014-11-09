@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'LDMSystemMain',
     'django.contrib.webdesign',
     'bootstrap3',
+    'simplejson',
 )
 
 MIDDLEWARE_CLASSES = (
