@@ -1,0 +1,11 @@
+{% extends "main.html" %}
+
+{% load webdesign %}
+
+{% block content %}
+    <ul>
+   {% for person in persons_list %}
+       <li>{{ person.first_name    }}  {{ person.last_name }}</li>
+    {% endfor %}
+    </ul>
+{% endblock %}
