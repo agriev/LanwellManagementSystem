@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'LDMSystemMain',
     'django.contrib.webdesign',
+    'bootstrap3',
 )
 
 MIDDLEWARE_CLASSES = (

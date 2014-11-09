@@ -5,7 +5,8 @@
 {% block content %}
     <ul>
    {% for person in persons_list %}
-       <li>{{ person.first_name    }}  {{ person.last_name }}</li>
-    {% endfor %}
+       <li>{{ person.first_name }} {{ person.last_name }} <a href="/person/{{ person.executive_id }}">View person</a>
+       </li>
+   {% endfor %}
     </ul>
 {% endblock %}

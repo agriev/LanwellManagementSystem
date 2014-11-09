@@ -1,0 +1,28 @@
+{% extends "main.html" %}
+
+{% load webdesign %}
+{% load bootstrap3 %}
+{% block content %}
+    Person details!!!
+
+    {{ string_cur }}
+    <p>
+
+    </p>
+    <form class="form" action="/person/{{ current.executive_id }}/" method="post">
+
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+            <button type="submit" class="btn btn-primary">
+                {% bootstrap_icon "save" %} Submit
+            </button>
+
+        {% endbuttons %}
+    </form>
+
+
+
+
+
+{% endblock %}
