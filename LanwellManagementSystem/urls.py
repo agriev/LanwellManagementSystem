@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     url(r'^tasks/$', TasksListView.as_view()),
     # url(r'^blog/', include('blog.urls')),
     url(r'^person/(?P<in_executive_id>\d+)/$', 'LDMSystemMain.views.personDetails', name='person-detail'),
+    url(r'^person/add/$', 'LDMSystemMain.views.personAdd', name='person-detail-add'),
     url(r'^task/(?P<in_item_id>\d+)/$', 'LDMSystemMain.views.taskDetails', name='task-detail'),
     url(r'^task/add/(?P<in_executive_id>\d+)/$', 'LDMSystemMain.views.taskAdd', name='task-add-assign'),
     # Add for executive ID assigment

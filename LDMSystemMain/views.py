@@ -10,6 +10,7 @@ from LDMSystemMain.models import Person, Task, Company, PersonForm, TaskForm, As
 
 
 
+
 # Create your views here.
 def index(request):
     persons = Person.objects.first()
@@ -28,28 +29,58 @@ class PersonsListView(ListView):
     context_object_name = 'persons_list'
 
 
-def personDetails(request, in_executive_id):
+def personDetails(request, in_executive_id, error_form=""):
     if request.method == "GET":
-        current = get_object_or_404(Person, executive_id=in_executive_id)
-        form = PersonForm(instance=current)
-        # if Person.objects.filter(executive_id=executive_id):
-        # current = Person.objects.filter(executive_id=executive_id)
-        # else:
-        # current = 0
-        tasks = current.task_set
-        task_form = TaskForm()
-        return render(request, 'person_details.html',
+        if in_executive_id == "0":  # ########## TODO: Избавиться от чёртового говонокода, иначе пиздец. Ну как так можно создавать сущности???
+            current = Person()
+            isNew = True
+            #current.save()
+            form = PersonForm(instance=current)
+            if error_form:
+                form = error_form
+            tasks = []
+            task_form = TaskForm()
+            return render(request, 'person_details.html',
                       {'current': current,
                        'string_cur': current.__str__(),
                        'form': form,  # Форма редактирования персоны
                        'tasks': tasks,  # Persons tasks
-                       'task_form': task_form})  # New Task
+                       'task_form': task_form,
+                       'is_new': isNew})  # New Task
+        else:
+            isNew = False
+            current = get_object_or_404(Person, executive_id=in_executive_id)
+            form = PersonForm(instance=current)
+            # if Person.objects.filter(executive_id=executive_id):
+            # current = Person.objects.filter(executive_id=executive_id)
+            # else:
+            # current = 0
+            tasks = current.task_set
+            task_form = TaskForm()
+            return render(request, 'person_details.html',
+                          {'current': current,
+                           'string_cur': current.__str__(),
+                           'form': form,  # Форма редактирования персоны
+                           'tasks': tasks,  # Persons tasks
+                           'task_form': task_form,
+                           'is_new': isNew})  # New Task
     elif request.method == "POST":
-
         current = get_object_or_404(Person, executive_id=in_executive_id)
         form = PersonForm(request.POST, instance=current)
         form.save()
         return render(request, 'person_details.html', {'form': form})
+
+
+def personAdd(request):
+    if request.method == "POST":
+        form = PersonForm(request.POST)
+        if form.is_valid():
+            person = form.save()
+            return HttpResponseRedirect("/person/%d/" % person.executive_id)
+        else:
+            request.method = "GET"
+
+            return personDetails(request, in_executive_id="0", error_form=form)
 
 
 class PersonDetailView(DetailView):  #DEPRECATED:

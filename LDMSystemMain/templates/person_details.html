@@ -9,7 +9,8 @@
     <p>
 
     </p>
-    <form class="form" action="/person/{{ current.executive_id }}/" method="post">
+    {% if is_new %}
+        <form class="form" action="/person/add/" method="post">
 
         {% csrf_token %}
         {% bootstrap_form form %}
@@ -20,13 +21,30 @@
 
         {% endbuttons %}
     </form>
+    {% else %}
+        <form class="form" action="/person/{{ current.executive_id }}/" method="post">
 
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% buttons %}
+                <button type="submit" class="btn btn-primary">
+                    {% bootstrap_icon "save" %} Submit
+                </button>
+
+            {% endbuttons %}
+        </form>
+    {% endif %}
 
 
 
 {% endblock %}
 
 {% block properties %}
+
+    {% if is_new %}
+        <h1>Сохраните новый контакт</h1>
+
+    {% else %}
     <H2>Задачи на исполнителе:</H2>
 
     <table class="table table-striped table-hover table-bordered table-condensed">
@@ -63,6 +81,7 @@
             {% endbuttons %}
         </form>
     </div>
+    {% endif %}
 
 
     <script type="text/javascript">

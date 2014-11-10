@@ -2,6 +2,10 @@
 
 {% load webdesign %}
 
+{% block content %}
+    <button class="btn btn-primary" onclick="location.href='/person/0/'">Добавить контакт</button>
+{% endblock %}
+
 {% block properties %}
     {#    <ul>#}
     {#   {% for person in persons_list %}#}
@@ -28,5 +32,9 @@
             </tr>
         {% endfor %}
     </table>
+
+    {% load render_table from django_tables2 %}
+    {% render_table persons_list %}
+
 
 {% endblock %}
