@@ -30,7 +30,7 @@ class Person(Item, Executive):
     experience = models.IntegerField(default=0, verbose_name="Опыт")
     description = models.TextField(default="", verbose_name="Описание")
     phone = models.CharField(verbose_name="Телефон", default="", max_length=20)
-
+    email = models.CharField(verbose_name="e-mail", default="", max_length=30)
     def __str__(self):
         return self.first_name + " " + self.last_name + " id: " + str(self.executive_id)
 
@@ -64,7 +64,7 @@ class Task(Item):
 class TaskForm(ModelForm):
     class Meta:
         model = Task
-        fields = '__all__'
+        fields = ['name', 'duration']
 
 class Assigment(models.Model):
     person = models.ForeignKey(Executive)

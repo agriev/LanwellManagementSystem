@@ -14,6 +14,9 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
     url(r'^person/(?P<in_executive_id>\d+)/$', 'LDMSystemMain.views.personDetails', name='person-detail'),
     url(r'^task/(?P<in_item_id>\d+)/$', 'LDMSystemMain.views.taskDetails', name='task-detail'),
+    url(r'^task/add/(?P<in_executive_id>\d+)/$', 'LDMSystemMain.views.taskAdd', name='task-add-assign'),
+    # Add for executive ID assigment
+    url(r'^task/add/$', 'LDMSystemMain.views.taskAdd', name='task-add'),
     url(r'^assigmentedit/(?P<in_item_id>\d+)/(?P<command>\w+)/$', 'LDMSystemMain.views.assigmentEdit',
         name='assigment-edit'),
 

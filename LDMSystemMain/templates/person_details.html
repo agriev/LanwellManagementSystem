@@ -3,9 +3,9 @@
 {% load webdesign %}
 {% load bootstrap3 %}
 {% block content %}
-    Person details!!!
+    <h2>Редактировать контакт</h2>
 
-    {{ string_cur }}
+
     <p>
 
     </p>
@@ -27,24 +27,44 @@
 {% endblock %}
 
 {% block properties %}
+    <H2>Задачи на исполнителе:</H2>
 
-    <table class="table table-striped">
+    <table class="table table-striped table-hover table-bordered table-condensed">
         <tr>
             <td><b>Название задачи</b></td>
             <td><b>Длительность</b></td>
             <td><b>Редактировать</b></td>
         </tr>
         {% for task in tasks.all %}
+
             <tr>
-                <td>{{ task.name }}</td>
-                <td>{{ task.duration }}</td>
+                <td onclick='location.href="/task/{{ task.item_id }}/"'>{{ task.name }}</td>
+                <td onclick='location.href="/task/{{ task.item_id }}/"'>{{ task.duration }}</td>
                 <td>
                     <button class="btn btn-danger task-remover" id="{{ task.item_id }}">Снять задачу</button>
                 </td>
+
             </tr>
 
         {% endfor %}
     </table>
+    <div class="container">
+        <H2>Добавить задачу</H2>
+
+        <form class="form" action="/task/add/{{ current.executive_id }}/" method="post">
+
+            {% csrf_token %}
+            {% bootstrap_form task_form %}
+            {% buttons %}
+                <button type="submit" class="btn btn-success">
+                    {% bootstrap_icon "save" %} Add
+                </button>
+
+            {% endbuttons %}
+        </form>
+    </div>
+
+
     <script type="text/javascript">
         $(".task-remover").click(function () {
             $.ajax({
@@ -59,5 +79,7 @@
         });
 
     </script>
+
+
 
 {% endblock %}

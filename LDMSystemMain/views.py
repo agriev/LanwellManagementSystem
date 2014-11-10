@@ -1,5 +1,4 @@
-from django.http import HttpResponse
-
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.shortcuts import render_to_response, get_object_or_404
 from django.views.generic import ListView, DetailView
@@ -91,6 +90,16 @@ def taskDetails(request, in_item_id):
         form.save()
         return render(request, 'task_details.html', {'form': form})
 
+
+def taskAdd(request, in_executive_id):
+    if request.method == "POST":
+        form = TaskForm(request.POST)  # , instance=current)
+        task = form.save()
+        if in_executive_id:
+            person = get_object_or_404(Person, executive_id=in_executive_id)  # TODO: Not only Person is executive
+            assigment = Assigment(person=person, task=task)
+            assigment.save()
+        return HttpResponseRedirect('/person/' + in_executive_id + '/')
 
 def assigmentEdit(request, in_item_id, command):
     if request.method == "POST":

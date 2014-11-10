@@ -2,11 +2,31 @@
 
 {% load webdesign %}
 
-{% block content %}
-    <ul>
-   {% for person in persons_list %}
-       <li>{{ person.first_name }} {{ person.last_name }} <a href="/person/{{ person.executive_id }}">View person</a>
-       </li>
-   {% endfor %}
-    </ul>
+{% block properties %}
+    {#    <ul>#}
+    {#   {% for person in persons_list %}#}
+    {#       <li>{{ person.first_name }} {{ person.last_name }} <a href="/person/{{ person.executive_id }}">View person</a>#}
+    {#       </li>#}
+    {#   {% endfor %}#}
+    {#    </ul>#}
+
+    <table class="table table-striped table-hover table-bordered">
+        <tr>
+
+            <td><b>Имя</b></td>
+            <td><b>Фамилия</b></td>
+            <td><b>Телефон</b></td>
+            <td><b>e-mail</b></td>
+
+        </tr>
+        {% for person in persons_list %}
+            <tr>
+                <td onclick="location.href='/person/{{ person.executive_id }}'">{{ person.first_name }}</td>
+                <td onclick="location.href='/person/{{ person.executive_id }}'">{{ person.last_name }}</td>
+                <td>{{ person.phone }}</td>
+                <td>{{ person.email }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
 {% endblock %}
