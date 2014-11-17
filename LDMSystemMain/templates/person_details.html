@@ -51,6 +51,7 @@
         <tr>
             <td><b>Название задачи</b></td>
             <td><b>Длительность</b></td>
+            <td><b>Статус</b></td>
             <td><b>Редактировать</b></td>
         </tr>
         {% for task in tasks.all %}
@@ -58,6 +59,7 @@
             <tr>
                 <td onclick='location.href="/task/{{ task.item_id }}/"'>{{ task.name }}</td>
                 <td onclick='location.href="/task/{{ task.item_id }}/"'>{{ task.duration }}</td>
+                <td onclick='location.href="/task/{{ task.item_id }}/"'>{{ task.status }}</td>
                 <td>
                     <button class="btn btn-danger task-remover" id="{{ task.item_id }}">Снять задачу</button>
                 </td>
@@ -67,7 +69,7 @@
         {% endfor %}
     </table>
     <div class="container">
-        <H2>Добавить задачу</H2>
+        <H2>Добавить новую задачу</H2>
 
         <form class="form" action="/task/add/{{ current.executive_id }}/" method="post">
 

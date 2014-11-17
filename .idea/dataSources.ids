@@ -45,7 +45,9 @@
       <exported-key name="#FAKE_LDMSystemMain_comment_1" table="LDMSystemMain_comment" schema="" catalog="" columns="parent_item_id"/>
       <exported-key name="#FAKE_LDMSystemMain_company_1" table="LDMSystemMain_company" schema="" catalog="" columns="item_ptr_id"/>
       <exported-key name="#FAKE_LDMSystemMain_person_1" table="LDMSystemMain_person" schema="" catalog="" columns="item_ptr_id"/>
-      <exported-key name="#FAKE_LDMSystemMain_task_1" table="LDMSystemMain_task" schema="" catalog="" columns="item_ptr_id"/>
+      <exported-key name="#FAKE_LDMSystemMain_project_1" table="LDMSystemMain_project" schema="" catalog="" columns="item_ptr_id"/>
+      <exported-key name="#FAKE_LDMSystemMain_skill_1" table="LDMSystemMain_skill" schema="" catalog="" columns="item_ptr_id"/>
+      <exported-key name="#FAKE_LDMSystemMain_task_2" table="LDMSystemMain_task" schema="" catalog="" columns="item_ptr_id"/>
     </table>
     <table name="LDMSystemMain_person" schema="" catalog="" type="TABLE">
       <column name="executive_ptr_id" sqlType="INTEGER" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
@@ -55,17 +57,49 @@
       <column name="experience" sqlType="INTEGER" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
       <column name="description" sqlType="TEXT" precision="2000000000" scale="10" nullable="false" jdbcType="12"/>
       <column name="phone" sqlType="VARCHAR(20)" precision="2000000000" scale="10" nullable="false" jdbcType="12"/>
+      <column name="email" sqlType="VARCHAR(30)" precision="2000000000" scale="10" nullable="false" jdbcType="12"/>
+      <column name="rating" sqlType="INTEGER" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
       <primary-key columns="item_ptr_id"/>
       <foreign-key name="#FAKE_LDMSystemMain_person_1" columns="item_ptr_id" ref-table="LDMSystemMain_item" ref-schema="" ref-catalog="" ref-columns="item_id" update-rule="3" delete-rule="3" deferrability="1"/>
       <foreign-key name="#FAKE_LDMSystemMain_person_2" columns="executive_ptr_id" ref-table="LDMSystemMain_executive" ref-schema="" ref-catalog="" ref-columns="executive_id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <exported-key name="#FAKE_LDMSystemMain_person_skills_2" table="LDMSystemMain_person_skills" schema="" catalog="" columns="person_id"/>
+    </table>
+    <table name="LDMSystemMain_person_skills" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="INTEGER" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
+      <column name="person_id" sqlType="INTEGER" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
+      <column name="skill_id" sqlType="INTEGER" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_LDMSystemMain_person_skills_1" columns="skill_id" ref-table="LDMSystemMain_skill" ref-schema="" ref-catalog="" ref-columns="item_ptr_id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_LDMSystemMain_person_skills_2" columns="person_id" ref-table="LDMSystemMain_person" ref-schema="" ref-catalog="" ref-columns="item_ptr_id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="LDMSystemMain_person_skills_d38d4c39" unique="true" columns="skill_id"/>
+      <index name="LDMSystemMain_person_skills_a8452ca7" unique="true" columns="person_id"/>
+    </table>
+    <table name="LDMSystemMain_project" schema="" catalog="" type="TABLE">
+      <column name="item_ptr_id" sqlType="INTEGER" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
+      <column name="name" sqlType="VARCHAR(30)" precision="2000000000" scale="10" nullable="false" jdbcType="12"/>
+      <primary-key columns="item_ptr_id"/>
+      <foreign-key name="#FAKE_LDMSystemMain_project_1" columns="item_ptr_id" ref-table="LDMSystemMain_item" ref-schema="" ref-catalog="" ref-columns="item_id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <exported-key name="#FAKE_LDMSystemMain_task_1" table="LDMSystemMain_task" schema="" catalog="" columns="project_id"/>
+    </table>
+    <table name="LDMSystemMain_skill" schema="" catalog="" type="TABLE">
+      <column name="item_ptr_id" sqlType="INTEGER" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
+      <column name="name" sqlType="VARCHAR(30)" precision="2000000000" scale="10" nullable="false" jdbcType="12"/>
+      <column name="description" sqlType="VARCHAR(30)" precision="2000000000" scale="10" nullable="false" jdbcType="12"/>
+      <primary-key columns="item_ptr_id"/>
+      <foreign-key name="#FAKE_LDMSystemMain_skill_1" columns="item_ptr_id" ref-table="LDMSystemMain_item" ref-schema="" ref-catalog="" ref-columns="item_id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <exported-key name="#FAKE_LDMSystemMain_person_skills_1" table="LDMSystemMain_person_skills" schema="" catalog="" columns="skill_id"/>
     </table>
     <table name="LDMSystemMain_task" schema="" catalog="" type="TABLE">
       <column name="item_ptr_id" sqlType="INTEGER" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
       <column name="name" sqlType="VARCHAR(30)" precision="2000000000" scale="10" nullable="false" jdbcType="12"/>
       <column name="duration" sqlType="INTEGER" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
+      <column name="project_id" sqlType="INTEGER" precision="2000000000" scale="10" nullable="true" jdbcType="4"/>
+      <column name="status" sqlType="VARCHAR(20)" precision="2000000000" scale="10" nullable="false" jdbcType="12"/>
       <primary-key columns="item_ptr_id"/>
-      <foreign-key name="#FAKE_LDMSystemMain_task_1" columns="item_ptr_id" ref-table="LDMSystemMain_item" ref-schema="" ref-catalog="" ref-columns="item_id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_LDMSystemMain_task_1" columns="project_id" ref-table="LDMSystemMain_project" ref-schema="" ref-catalog="" ref-columns="item_ptr_id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_LDMSystemMain_task_2" columns="item_ptr_id" ref-table="LDMSystemMain_item" ref-schema="" ref-catalog="" ref-columns="item_id" update-rule="3" delete-rule="3" deferrability="1"/>
       <exported-key name="#FAKE_LDMSystemMain_assigment_1" table="LDMSystemMain_assigment" schema="" catalog="" columns="task_id"/>
+      <index name="LDMSystemMain_task_b098ad43" unique="true" columns="project_id"/>
     </table>
     <table name="auth_group" schema="" catalog="" type="TABLE">
       <column name="id" sqlType="INTEGER" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>

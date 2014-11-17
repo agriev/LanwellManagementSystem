@@ -3,10 +3,16 @@
 {% load webdesign %}
 
 {% block content %}
+    <button class="btn btn-primary" onclick="location.href='/task/0/'">Добавить задачу</button>
+
+{% endblock %}
+
+{% block properties %}
     <ul>
         {% for task in tasks_list %}
             <li>{{ task.name }} <a href="/task/{{ task.item_id }}">Edit task</a>
             </li>
         {% endfor %}
     </ul>
+
 {% endblock %}

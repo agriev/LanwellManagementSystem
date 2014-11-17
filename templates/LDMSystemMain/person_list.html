@@ -13,12 +13,13 @@
     {#       </li>#}
     {#   {% endfor %}#}
     {#    </ul>#}
-
+    <h2>Существующие исполнители</h2>
     <table class="table table-striped table-hover table-bordered">
         <tr>
 
             <td><b>Имя</b></td>
             <td><b>Фамилия</b></td>
+            <td><b>Рейтинг</b></td>
             <td><b>Телефон</b></td>
             <td><b>e-mail</b></td>
 
@@ -27,6 +28,7 @@
             <tr>
                 <td onclick="location.href='/person/{{ person.executive_id }}'">{{ person.first_name }}</td>
                 <td onclick="location.href='/person/{{ person.executive_id }}'">{{ person.last_name }}</td>
+                <td onclick="location.href='/person/{{ person.executive_id }}'">{{ person.rating }}</td>
                 <td>{{ person.phone }}</td>
                 <td>{{ person.email }}</td>
             </tr>

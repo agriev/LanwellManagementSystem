@@ -2,8 +2,12 @@
 
 {% load webdesign %}
 
-{% block content %}
+{% block properties %}
 
-   {% lorem %}
+    <h1>
+        Контактов в системе: {{ persons }}
+        <br>
+        Задач в системе: {{ tasks }}
+    </h1>
 
 {% endblock %}

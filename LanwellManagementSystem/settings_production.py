@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -41,7 +42,6 @@ INSTALLED_APPS = (
     'bootstrap3',
     'simplejson',
     'django_tables2',
-    'debug_toolbar',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -89,7 +89,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR,  'templates'),
+    os.path.join(BASE_DIR, 'templates'),
 )
 
 STATICFILES_DIRS = (

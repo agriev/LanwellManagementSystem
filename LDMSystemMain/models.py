@@ -2,7 +2,7 @@ from django.db import models
 from django.forms import ModelForm
 
 # Create your models here.
-#class Superparent(models.Model):  # Holds AutoId
+# class Superparent(models.Model):  # Holds AutoId
 #    pass
 
 
@@ -21,18 +21,31 @@ class Executive(models.Model):  # Всё что может являться ис
         else:
             return " %d" % self.executive_id
 
-#TODO: Person Assignment
-# TODO: TASK Add
+
+#DONE: Person Assignment Remove
+#DONE: TASK Add
 #DONE: Task Remove
+#TODO: Person Assigment make to existing task
 class Person(Item, Executive):
     first_name = models.CharField(verbose_name="Имя", max_length=30)
     last_name = models.CharField(verbose_name="Фамилия", max_length=30)
     experience = models.IntegerField(default=0, verbose_name="Опыт")
+    rating = models.IntegerField(verbose_name="Рейтинг", default=0)
     description = models.TextField(default="", verbose_name="Описание")
     phone = models.CharField(verbose_name="Телефон", default="", max_length=20)
-    email = models.CharField(verbose_name="e-mail", default="", max_length=30)
+    email = models.EmailField(verbose_name="e-mail", default="", max_length=30)
+    skills = models.ManyToManyField("LDMSystemMain.Skill", verbose_name="Навык", blank=True, null=True)
+
     def __str__(self):
         return self.first_name + " " + self.last_name + " id: " + str(self.executive_id)
+
+
+class Skill(Item):
+    name = models.CharField(verbose_name="Название", max_length=30)
+    description = models.CharField(verbose_name="Описание", max_length=30)
+
+    def __str__(self):
+        return self.name
 
 
 class PersonForm(ModelForm):
@@ -49,13 +62,31 @@ class Company(Item, Executive):
     def __str__(self):
         return self.name
 
-#TODO: Task List
-#TODO: Task Edit
-#TODO: Task Assign
+
+class Project(Item):  #TODO: Base fixture
+    name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.name
+
+
+#DONE: Task List
+#DONE: Task Edit
+#TODO: Existing Task Assign
 class Task(Item):
+    NEW = "NEW"
+    TASK_STATUS_CHOICES = (
+        ("NEW", "NEW"),
+        ("ASSIGNED", "ASSIGNED"),
+        ("IN_PROGRESS", "IN PROGRESS"),
+        ("COMPLETED", "COMPLETED"),
+        ("CANCELED", "CANCELED"),
+    )
     name = models.CharField(max_length=30)
     duration = models.IntegerField()
     person = models.ManyToManyField(Executive, through='Assigment')
+    project = models.ForeignKey(Project, null=True)  #TODO: Construct
+    status = models.CharField(max_length=20, choices=TASK_STATUS_CHOICES, default=NEW)
 
     def __str__(self):
         return self.name + " "  # + self.person.executive_id
@@ -64,12 +95,14 @@ class Task(Item):
 class TaskForm(ModelForm):
     class Meta:
         model = Task
-        fields = ['name', 'duration']
+        fields = ['name', 'duration', 'status', 'project']
+
 
 class Assigment(models.Model):
     person = models.ForeignKey(Executive)
     task = models.ForeignKey(Task)
     date_assigned = models.DateTimeField(auto_now=True)
+
 
 #TODO: Comment person
 #TODO: Comment task
