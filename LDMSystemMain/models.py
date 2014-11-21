@@ -63,11 +63,7 @@ class Company(Item, Executive):
         return self.name
 
 
-class Project(Item):  #TODO: Base fixture
-    name = models.CharField(max_length=30)
 
-    def __str__(self):
-        return self.name
 
 
 #DONE: Task List
@@ -82,20 +78,44 @@ class Task(Item):
         ("COMPLETED", "COMPLETED"),
         ("CANCELED", "CANCELED"),
     )
+    # PAYMENT_OPTIONS = ( #TODO: Разные варианты оплаты
+    # ("ONCOMPLETE", "ON COMPLETION"),
+    #     ("PARTIAL", "BY PARTS"),
+    #     ("REGULAR", "REGULAR PAYMENTS"),
+    # )
     name = models.CharField(max_length=30)
+    datestart = models.DateTimeField(verbose_name="Дата начала", auto_now=True, null=True)
+    datefinish = models.DateTimeField(verbose_name="Дата завершения", auto_now=True, null=True)
     duration = models.IntegerField()
     person = models.ManyToManyField(Executive, through='Assigment')
-    project = models.ForeignKey(Project, null=True)  #TODO: Construct
+    parent = models.ForeignKey("self", verbose_name="Родительская задача", null=True)  # TODO: Construct
     status = models.CharField(max_length=20, choices=TASK_STATUS_CHOICES, default=NEW)
+    is_project = models.BooleanField(default=False, verbose_name="Является проектом")
 
     def __str__(self):
         return self.name + " "  # + self.person.executive_id
+
+    def isProject(self):
+        return False
+
+
+class Project(Task):  # TODO: Base fixture
+    #name = models.CharField(max_length=30)
+    def isProject(self):
+        return True
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.is_project = True
+
+    def __str__(self):
+        return self.name
 
 
 class TaskForm(ModelForm):
     class Meta:
         model = Task
-        fields = ['name', 'duration', 'status', 'project']
+        fields = ['name', 'duration', 'status']
 
 
 class Assigment(models.Model):
